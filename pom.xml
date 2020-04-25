@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.in28minutes.springboot.web</groupId>
-	<artifactId>02-todo-web-application-h2</artifactId>
+	<artifactId>03-todo-web-application-mysql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>todo-web-application-h2</name>
+	<name>todo-web-application-mysql</name>
 
 	<description>Demo project for Spring Boot</description>
 
@@ -31,6 +31,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -40,7 +45,12 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 		<dependency>
@@ -97,13 +107,15 @@
 	</dependencies>
 
 	<build>
-		<finalName>todo-web-application-h2</finalName>
+		<finalName>todo-web-application-mysql</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!-- Dockerfile Maven -->
+			<!-- https://github.com/spotify/dockerfile-maven -->
+ 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.10</version>
@@ -112,15 +124,17 @@
 						<id>default</id>
 						<goals>
 							<goal>build</goal>
+							 <!-- <goal>push</goal> -->
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<repository>9242669955docker/${project.name}</repository>
+					<repository>in28min/${project.name}</repository>
 					<tag>${project.version}</tag>
 					<skipDockerInfo>true</skipDockerInfo>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
